@@ -11,7 +11,6 @@ from .mojeek import Mojeek
 from .parsijoo import Parsijoo
 from .quora import Quora
 from .yahoo import Yahoo
-from .yandex import Yandex
 from .youtube import Youtube
 
 scrapers = {
@@ -26,16 +25,15 @@ scrapers = {
     'parsijoo': Parsijoo(),
     'quora': Quora(),
     'yahoo': Yahoo(),
-    'yandex': Yandex(),
     'youtube': Youtube()
 }
 
 
 def small_test():
-    assert isinstance(scrapers['google'].search('fossasia',  1), list)
+    assert isinstance(scrapers['google'].search('fossasia', 1), list)
 
 
-def feed_gen(query, engine, count=10):
+def feed_gen(query, engine, count=10, qtype=''):
     engine = engine.lower()
     # provide temporary backwards compatibility for old names
     old_names = {'ubaidu': 'baidu',
@@ -45,5 +43,5 @@ def feed_gen(query, engine, count=10):
     if engine in ('quora', 'youtube'):
         urls = scrapers[engine].search_without_count(query)
     else:
-        urls = scrapers[engine].search(query, count)
+        urls = scrapers[engine].search(query, count, qtype)
     return urls
