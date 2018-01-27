@@ -38,6 +38,11 @@ class Scraper:
                 return response
             else:
                 url = self.url
+        elif qtype == 'news':
+            if self.name in ['bing']:
+                url = self.newsURL
+            else:
+                url = self.url
         payload = {self.queryKey: query, self.startKey: startIndex,
                    self.qtype: qtype}
         response = requests.get(url, headers=self.headers, params=payload)
@@ -70,6 +75,11 @@ class Scraper:
             if qtype == 'vid':
                 if self.name in ['yahoo']:
                     new_results = self.parse_video_response(soup)
+                else:
+                    new_results = self.parse_response(soup)
+            elif qtype == 'news':
+                if self.name in ['bing']:
+                    new_results = self.parse_news_response(soup)
                 else:
                     new_results = self.parse_response(soup)
             else:
